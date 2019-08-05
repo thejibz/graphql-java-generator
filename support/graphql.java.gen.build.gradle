@@ -59,8 +59,8 @@ ext {
 
     libraryDescription = 'GraphQL support package generated client code'
 
-    siteUrl = 'https://github.com/Shopify/graphql_java_gen'
-    gitUrl = 'https://github.com/Shopify/graphql_java_gen.git'
+    siteUrl = 'https://github.com/adobe/graphql-java-generator'
+    gitUrl = 'https://github.com/adobe/graphql-java-generator.git'
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'

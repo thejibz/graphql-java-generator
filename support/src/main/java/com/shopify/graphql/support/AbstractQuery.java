@@ -1,9 +1,31 @@
+/**
+ * Copyright 2015 Shopify
+ * Copyright 2019 Adobe
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.shopify.graphql.support;
 
 /**
  * Created by eapache on 2015-11-17.
  */
-public abstract class Query<T extends Query> {
+public abstract class AbstractQuery<T extends AbstractQuery> {
     public static final String ALIAS_SUFFIX_SEPARATOR = "__";
     private static final String BAD_ALIAS_SEPARATOR = "-";
     private static final String ALIAS_DELIMITER = ":";
@@ -11,7 +33,7 @@ public abstract class Query<T extends Query> {
     private boolean firstSelection = true;
     private String aliasSuffix = null;
 
-    protected Query(StringBuilder queryBuilder) {
+    protected AbstractQuery(StringBuilder queryBuilder) {
         this._queryBuilder = queryBuilder;
     }
 
@@ -73,6 +95,7 @@ public abstract class Query<T extends Query> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public T withAlias(String aliasSuffix) {
         if (this.aliasSuffix != null) {
             throw new IllegalStateException("Can only define a single alias for a field");
@@ -80,14 +103,13 @@ public abstract class Query<T extends Query> {
         if (aliasSuffix == null || aliasSuffix.isEmpty()) {
             throw new IllegalArgumentException("Can't specify an empty alias");
         }
-        if (aliasSuffix.contains(Query.ALIAS_SUFFIX_SEPARATOR)) {
+        if (aliasSuffix.contains(ALIAS_SUFFIX_SEPARATOR)) {
             throw new IllegalArgumentException("Alias must not contain __");
         }
-        if (aliasSuffix.contains(Query.BAD_ALIAS_SEPARATOR)) {
+        if (aliasSuffix.contains(BAD_ALIAS_SEPARATOR)) {
             throw new IllegalArgumentException("Alias must not contain -");
         }
         this.aliasSuffix = aliasSuffix;
-        // noinspection unchecked
         return (T) this;
     }
 }

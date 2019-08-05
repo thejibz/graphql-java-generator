@@ -1,13 +1,35 @@
-package com.shopify.graphql.support;
+/**
+ * Copyright 2015 Shopify
+ * Copyright 2019 Adobe
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+package com.shopify.graphql.support;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * Created by dylansmith on 2015-11-23.
@@ -17,6 +39,7 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
     public final HashMap<String, Object> optimisticData = new HashMap<>();
     private String aliasSuffix = null;
 
+    @SuppressWarnings("unchecked")
     public T withAlias(String aliasSuffix) {
         if (this.aliasSuffix != null) {
             throw new IllegalStateException("Can only define a single alias for a field");
@@ -24,12 +47,11 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
         if (aliasSuffix == null || aliasSuffix.isEmpty()) {
             throw new IllegalArgumentException("Can't specify an empty alias");
         }
-        if (aliasSuffix.contains(Query.ALIAS_SUFFIX_SEPARATOR)) {
+        if (aliasSuffix.contains(AbstractQuery.ALIAS_SUFFIX_SEPARATOR)) {
             throw new IllegalArgumentException("Alias must not contain __");
         }
 
         this.aliasSuffix = aliasSuffix;
-        // noinspection unchecked
         return (T) this;
     }
 
@@ -42,7 +64,7 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
     }
 
     protected String getFieldName(String key) {
-        int i = key.lastIndexOf(Query.ALIAS_SUFFIX_SEPARATOR);
+        int i = key.lastIndexOf(AbstractQuery.ALIAS_SUFFIX_SEPARATOR);
         if (i > 1) {
             key = key.substring(0, i);
         }
@@ -51,7 +73,7 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
 
     protected String getKey(String field) {
         if (aliasSuffix != null) {
-            field += Query.ALIAS_SUFFIX_SEPARATOR + aliasSuffix;
+            field += AbstractQuery.ALIAS_SUFFIX_SEPARATOR + aliasSuffix;
             aliasSuffix = null;
         }
         return field;
@@ -65,7 +87,7 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
     }
 
     protected Integer jsonAsInteger(JsonElement element, String field) throws SchemaViolationError {
-        if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isNumber()) {
+        if (!element.isJsonPrimitive() || (!element.getAsJsonPrimitive().isNumber() && !element.getAsJsonPrimitive().isString())) {
             throw new SchemaViolationError(this, field, element);
         }
         try {
@@ -76,14 +98,18 @@ public abstract class AbstractResponse<T extends AbstractResponse> implements Se
     }
 
     protected Double jsonAsDouble(JsonElement element, String field) throws SchemaViolationError {
-        if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isNumber()) {
+        if (!element.isJsonPrimitive() || (!element.getAsJsonPrimitive().isNumber() && !element.getAsJsonPrimitive().isString())) {
             throw new SchemaViolationError(this, field, element);
         }
-        return element.getAsJsonPrimitive().getAsDouble();
+        try {
+            return element.getAsJsonPrimitive().getAsDouble();
+        } catch (NumberFormatException exc) {
+            throw new SchemaViolationError(this, field, element);
+        }
     }
 
     protected Boolean jsonAsBoolean(JsonElement element, String field) throws SchemaViolationError {
-        if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isBoolean()) {
+        if (!element.isJsonPrimitive() || (!element.getAsJsonPrimitive().isBoolean() && !element.getAsJsonPrimitive().isString())) {
             throw new SchemaViolationError(this, field, element);
         }
         return element.getAsJsonPrimitive().getAsBoolean();

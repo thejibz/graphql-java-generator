@@ -17,6 +17,7 @@ task :generate do
   GraphQLJavaGen.new(
     GraphQLSchema.new(Support::Schema.introspection_result),
     package_name: 'com.shopify.graphql.support',
+    license_header_file: "./License.erb",
     nest_under: 'Generated',
     custom_scalars: [
       GraphQLJavaGen::Scalar.new(
@@ -36,6 +37,7 @@ task :generate do
 
   GraphQLJavaGen.new(
     GraphQLSchema.new(Support::Schema.introspection_result(Support::Schema::MinimalSchema)),
+    license_header_file: "./License.erb",
     package_name: 'com.shopify.graphql.support',
     nest_under: 'GeneratedMinimal',
   ).save('support/src/test/java/com/shopify/graphql/support/GeneratedMinimal.java')

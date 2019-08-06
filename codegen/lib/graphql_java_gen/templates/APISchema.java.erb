@@ -74,7 +74,7 @@ public class <%= schema_name %> {
             }
 
             <%= java_doc(type) %>
-            public static class <%= type.name %>Query extends Query<<%= type.name %>Query> {
+            public static class <%= type.name %>Query extends AbstractQuery<<%= type.name %>Query> {
                 <%= type.name %>Query(StringBuilder _queryBuilder) {
                     super(_queryBuilder);
                     <% if type.object? && type.implement?("Node") %>

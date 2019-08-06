@@ -1,4 +1,16 @@
-// Generated from graphql_java_gen gem
+/*******************************************************************************
+ *
+ *    Copyright 2019 Adobe. All rights reserved.
+ *    This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License. You may obtain a copy
+ *    of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software distributed under
+ *    the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ *    OF ANY KIND, either express or implied. See the License for the specific language
+ *    governing permissions and limitations under the License.
+ *
+ ******************************************************************************/
 
 package com.shopify.graphql.support;
 
@@ -9,7 +21,7 @@ import com.google.gson.JsonObject;
 import com.shopify.graphql.support.AbstractResponse;
 import com.shopify.graphql.support.Arguments;
 import com.shopify.graphql.support.Error;
-import com.shopify.graphql.support.Query;
+import com.shopify.graphql.support.AbstractQuery;
 import com.shopify.graphql.support.SchemaViolationError;
 import com.shopify.graphql.support.TopLevelResponse;
 import com.shopify.graphql.support.Input;
@@ -110,7 +122,7 @@ public class Generated {
         void define(EntryQuery _queryBuilder);
     }
 
-    public static class EntryQuery extends Query<EntryQuery> {
+    public static class EntryQuery extends AbstractQuery<EntryQuery> {
         EntryQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
 
@@ -244,7 +256,7 @@ public class Generated {
         void define(EntryUnionQuery _queryBuilder);
     }
 
-    public static class EntryUnionQuery extends Query<EntryUnionQuery> {
+    public static class EntryUnionQuery extends AbstractQuery<EntryUnionQuery> {
         EntryUnionQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
 
@@ -322,7 +334,7 @@ public class Generated {
         void define(IntegerEntryQuery _queryBuilder);
     }
 
-    public static class IntegerEntryQuery extends Query<IntegerEntryQuery> {
+    public static class IntegerEntryQuery extends AbstractQuery<IntegerEntryQuery> {
         IntegerEntryQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
         }
@@ -435,8 +447,8 @@ public class Generated {
     }
 
     /**
-    * Types of values that can be stored in a key
-    */
+     * Types of values that can be stored in a key
+     */
     public enum KeyType {
         INTEGER,
 
@@ -484,7 +496,7 @@ public class Generated {
         void define(MutationQuery _queryBuilder);
     }
 
-    public static class MutationQuery extends Query<MutationQuery> {
+    public static class MutationQuery extends AbstractQuery<MutationQuery> {
         MutationQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
         }
@@ -504,10 +516,10 @@ public class Generated {
             startField("set_string");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(",value:");
-            Query.appendQuotedString(_queryBuilder, value.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, value.toString());
 
             _queryBuilder.append(')');
 
@@ -522,7 +534,7 @@ public class Generated {
             public SetStringWithDefaultArguments value(String value) {
                 if (value != null) {
                     startArgument("value");
-                    Query.appendQuotedString(_queryBuilder, value.toString());
+                    AbstractQuery.appendQuotedString(_queryBuilder, value.toString());
                 }
                 return this;
             }
@@ -540,7 +552,7 @@ public class Generated {
             startField("set_string_with_default");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             argsDef.define(new SetStringWithDefaultArguments(_queryBuilder));
 
@@ -640,7 +652,7 @@ public class Generated {
         void define(QueryRootQuery _queryBuilder);
     }
 
-    public static class QueryRootQuery extends Query<QueryRootQuery> {
+    public static class QueryRootQuery extends AbstractQuery<QueryRootQuery> {
         QueryRootQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
         }
@@ -653,7 +665,7 @@ public class Generated {
             public EntriesArguments after(String value) {
                 if (value != null) {
                     startArgument("after");
-                    Query.appendQuotedString(_queryBuilder, value.toString());
+                    AbstractQuery.appendQuotedString(_queryBuilder, value.toString());
                 }
                 return this;
             }
@@ -685,13 +697,13 @@ public class Generated {
         }
 
         /**
-        * Get an entry of any type with the given key
-        */
+         * Get an entry of any type with the given key
+         */
         public QueryRootQuery entry(String key, EntryQueryDefinition queryDef) {
             startField("entry");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -703,13 +715,13 @@ public class Generated {
         }
 
         /**
-        * Get an entry of any type with the given key as a union
-        */
+         * Get an entry of any type with the given key as a union
+         */
         public QueryRootQuery entryUnion(String key, EntryUnionQueryDefinition queryDef) {
             startField("entry_union");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -721,13 +733,13 @@ public class Generated {
         }
 
         /**
-        * Get a integer value with the given key
-        */
+         * Get a integer value with the given key
+         */
         public QueryRootQuery integer(String key) {
             startField("integer");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -742,7 +754,7 @@ public class Generated {
             public KeysArguments after(String value) {
                 if (value != null) {
                     startArgument("after");
-                    Query.appendQuotedString(_queryBuilder, value.toString());
+                    AbstractQuery.appendQuotedString(_queryBuilder, value.toString());
                 }
                 return this;
             }
@@ -778,13 +790,13 @@ public class Generated {
         }
 
         /**
-        * Get a string value with the given key
-        */
+         * Get a string value with the given key
+         */
         public QueryRootQuery string(String key) {
             startField("string");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -795,7 +807,7 @@ public class Generated {
             startField("ttl");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -806,7 +818,7 @@ public class Generated {
             startField("type");
 
             _queryBuilder.append("(key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(')');
 
@@ -957,8 +969,8 @@ public class Generated {
         }
 
         /**
-        * Get an entry of any type with the given key
-        */
+         * Get an entry of any type with the given key
+         */
         @Nullable
         public Entry getEntry() {
             return (Entry) get("entry");
@@ -970,8 +982,8 @@ public class Generated {
         }
 
         /**
-        * Get an entry of any type with the given key as a union
-        */
+         * Get an entry of any type with the given key as a union
+         */
         @Nullable
         public EntryUnion getEntryUnion() {
             return (EntryUnion) get("entry_union");
@@ -983,8 +995,8 @@ public class Generated {
         }
 
         /**
-        * Get a integer value with the given key
-        */
+         * Get a integer value with the given key
+         */
         @Nullable
         public Integer getInteger() {
             return (Integer) get("integer");
@@ -1005,8 +1017,8 @@ public class Generated {
         }
 
         /**
-        * Get a string value with the given key
-        */
+         * Get a string value with the given key
+         */
         @Nullable
         public String getString() {
             return (String) get("string");
@@ -1180,7 +1192,7 @@ public class Generated {
             _queryBuilder.append(separator);
             separator = ",";
             _queryBuilder.append("key:");
-            Query.appendQuotedString(_queryBuilder, key.toString());
+            AbstractQuery.appendQuotedString(_queryBuilder, key.toString());
 
             _queryBuilder.append(separator);
             separator = ",";
@@ -1192,7 +1204,7 @@ public class Generated {
                 separator = ",";
                 _queryBuilder.append("ttl:");
                 if (ttl.getValue() != null) {
-                    Query.appendQuotedString(_queryBuilder, ttl.getValue().toString());
+                    AbstractQuery.appendQuotedString(_queryBuilder, ttl.getValue().toString());
                 } else {
                     _queryBuilder.append("null");
                 }
@@ -1214,7 +1226,7 @@ public class Generated {
                 separator = ",";
                 _queryBuilder.append("api_client:");
                 if (apiClient.getValue() != null) {
-                    Query.appendQuotedString(_queryBuilder, apiClient.getValue().toString());
+                    AbstractQuery.appendQuotedString(_queryBuilder, apiClient.getValue().toString());
                 } else {
                     _queryBuilder.append("null");
                 }
@@ -1228,7 +1240,7 @@ public class Generated {
         void define(StringEntryQuery _queryBuilder);
     }
 
-    public static class StringEntryQuery extends Query<StringEntryQuery> {
+    public static class StringEntryQuery extends AbstractQuery<StringEntryQuery> {
         StringEntryQuery(StringBuilder _queryBuilder) {
             super(_queryBuilder);
         }

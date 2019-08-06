@@ -1,4 +1,4 @@
-// Generated from <%= script_name %>
+<%= render_license %>
 
 package <%= package_name %>;
 
@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.shopify.graphql.support.AbstractResponse;
 import com.shopify.graphql.support.Arguments;
 import com.shopify.graphql.support.Error;
-import com.shopify.graphql.support.Query;
+import com.shopify.graphql.support.AbstractQuery;
 import com.shopify.graphql.support.SchemaViolationError;
 import com.shopify.graphql.support.TopLevelResponse;
 import com.shopify.graphql.support.Input;
@@ -22,23 +22,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+<% required_input_fields = type.required_input_fields.sort_by{ |field| field.name } || [] %>
+<% optional_input_fields = type.optional_input_fields.sort_by{ |field| field.name } || [] %>
 public class <%= type.name %> implements Serializable {
-    <% type.required_input_fields.each do |field| %>
+    <% required_input_fields.each do |field| %>
       private <%= java_input_type(field.type) %> <%= escape_reserved_word(field.camelize_name) %>;
     <% end %>
-    <% type.optional_input_fields.each do |field| %>
+    <% optional_input_fields.each do |field| %>
       private Input<<%= java_input_type(field.type) %>> <%= escape_reserved_word(field.camelize_name) %> = Input.undefined();
     <% end %>
 
-    <% unless type.required_input_fields.empty? %>
-      public <%= type.name %>(<%= type.required_input_fields.map{ |field| "#{java_input_type(field.type)} #{escape_reserved_word(field.camelize_name)}" }.join(', ') %>) {
-          <% type.required_input_fields.each do |field| %>
+    <% unless required_input_fields.empty? %>
+      public <%= type.name %>(<%= required_input_fields.map{ |field| "#{java_input_type(field.type)} #{escape_reserved_word(field.camelize_name)}" }.join(', ') %>) {
+          <% required_input_fields.each do |field| %>
               this.<%= escape_reserved_word(field.camelize_name) %> = <%= escape_reserved_word(field.camelize_name) %>;
           <% end %>
       }
     <% end %>
 
-    <% type.required_input_fields.each do |field| %>
+    <% required_input_fields.each do |field| %>
       <%= java_annotations(field) %>
       public <%= java_input_type(field.type) %> get<%= field.classify_name %>() {
           return <%= escape_reserved_word(field.camelize_name) %>;
@@ -50,7 +52,7 @@ public class <%= type.name %> implements Serializable {
       }
 
     <% end %>
-    <% type.optional_input_fields.each do |field| %>
+    <% optional_input_fields.each do |field| %>
       <%= java_annotations(field) %>
       public <%= java_input_type(field.type) %> get<%= field.classify_name %>() {
           return <%= escape_reserved_word(field.camelize_name) %>.getValue();
@@ -78,13 +80,13 @@ public class <%= type.name %> implements Serializable {
     public void appendTo(StringBuilder _queryBuilder) {
       String separator = "";
       _queryBuilder.append('{');
-      <% type.required_input_fields.each do |field| %>
+      <% required_input_fields.each do |field| %>
         _queryBuilder.append(separator);
         separator = ",";
         _queryBuilder.append("<%= field.name %>:");
         <%= generate_build_input_code(escape_reserved_word(field.camelize_name), field.type) %>
       <% end %>
-      <% type.optional_input_fields.each do |field| %>
+      <% optional_input_fields.each do |field| %>
         if (this.<%= escape_reserved_word(field.camelize_name) %>.isDefined()) {
           _queryBuilder.append(separator);
           separator = ",";

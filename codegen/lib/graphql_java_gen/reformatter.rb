@@ -12,6 +12,7 @@ class GraphQLJavaGen
       output = ""
       indent_level = 0
       squeeze_newlines = true
+      javadoc = false
 
       code.lines.each do |line|
         stripped_line = line.strip
@@ -26,6 +27,9 @@ class GraphQLJavaGen
         if stripped_line.empty?
           output << "\n" unless squeeze_newlines
           squeeze_newlines = true
+        elsif javadoc
+          output << @indent * indent_level + " " << line.lstrip
+          squeeze_newlines = false
         else
           output << @indent * indent_level << line.lstrip
           squeeze_newlines = false
@@ -35,6 +39,12 @@ class GraphQLJavaGen
           indent_level += 1
           # no blank lines following start of block
           squeeze_newlines = true
+        end
+
+        if !javadoc && stripped_line.start_with?("/**")
+          javadoc = true
+        elsif javadoc && stripped_line.end_with?("*/")
+          javadoc = false;
         end
       end
       output

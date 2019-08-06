@@ -11,7 +11,7 @@ class GraphQLJavaGen
 
   def initialize(schema,
     package_name:, nest_under:, script_name: 'graphql_java_gen gem',
-    custom_scalars: [], custom_annotations: [], include_deprecated: false
+    custom_scalars: [], custom_annotations: [], include_deprecated: false, license_header_file:
   )
     @schema = schema
     @schema_name = nest_under
@@ -22,6 +22,7 @@ class GraphQLJavaGen
     @annotations = custom_annotations
     @imports = (@scalars.values.map(&:imports) + @annotations.map(&:imports)).flatten.sort.uniq
     @include_deprecated = include_deprecated
+    @license_header_file = license_header_file
   end
 
   def save(path)
@@ -136,7 +137,7 @@ class GraphQLJavaGen
   RESERVED_WORDS = [
     "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "final", "finally", "float",
     "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native", "new", "package", "private", "protected", "public", "return", "short", "static", "strictfp", "super",
-    "switch", "synchronized", "this", "throw", "throws", "transient", "try", "void", "volatile", "while"
+    "switch", "synchronized", "this", "throw", "throws", "transient", "try", "void", "volatile", "while", "null"
   ]
   private_constant :RESERVED_WORDS
 
@@ -185,7 +186,7 @@ class GraphQLJavaGen
       if ['Int', 'Float', 'Boolean'].include?(type.name)
         "_queryBuilder.append(#{expr});"
       else
-        "Query.appendQuotedString(_queryBuilder, #{expr}.toString());"
+        "AbstractQuery.appendQuotedString(_queryBuilder, #{expr}.toString());"
       end
     when 'ENUM'
       "_queryBuilder.append(#{expr}.toString());"
@@ -352,7 +353,7 @@ class GraphQLJavaGen
       doc << element.deprecation_reason
     end
 
-    doc.empty? ? doc : "/**\n" + doc + "\n*/"
+    doc.empty? ? doc : "/**\n" + ERB::Util.html_escape(doc) + "\n*/"
   end
 
   def wrap_text(text, col_width=80)
@@ -360,4 +361,11 @@ class GraphQLJavaGen
     text.gsub!( /(.{1,#{col_width}})(?:\s+|$)/, "\\1\n" )
     text
   end
+
+  def render_license
+    content = File.read(File.expand_path(@license_header_file))
+    t = ERB.new(content)
+    t.result(binding)
+  end
+
 end

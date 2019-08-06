@@ -16,6 +16,8 @@ The generated code depends on the `com.shopify.graphql.support` java package ava
 
 An example project built with this generator is https://github.com/adobe/commerce-cif-magento-graphql where you can see the expected output project.
 
+*Note: on MacOS, one has to install bundle 1.14 to get it working, with `sudo gem install bundler -v 1.14`*
+
 ## Usage
 
 The input of the generator is the JSON response of a standard GraphQL introspection query. This requires that you can access the GraphQL HTTP endpoint of your running GraphQL server. You can easily get the JSON response with for example the [GraphiQL](https://github.com/graphql/graphiql) extension for the Chrome browser. Simply install the extension, set the endpoint to your GraphQL server, open the Chrome's inspector, and click "set endpoint" in GraphiQL. In the inspector, you can then simply copy the JSON response of the introspection query.

@@ -18,6 +18,8 @@ An example project built with this generator is https://github.com/adobe/commerc
 
 ## Usage
 
+The input of the generator is the JSON response of a standard GraphQL introspection query. This requires that you can access the GraphQL HTTP endpoint of your running GraphQL server. You can easily get the JSON response with for example the [GraphiQL](https://github.com/graphql/graphiql) extension for the Chrome browser. Simply install the extension, set the endpoint to your GraphQL server, open the Chrome's inspector, and click "set endpoint" in GraphiQL. In the inspector, you can then simply copy the JSON response of the introspection query.
+
 To generate separate class files for each schema entity, use the `save_granular` command. In this case, you must provide the path to the target directory where the java files will be generated. This directoy MUST exist prior to generating the files, it is not automatically created.
 
 e.g.
@@ -46,7 +48,7 @@ GraphQLJavaGen.new(schema,
 
 When using the granular option, the `com.example.myapp` package will contain many small class files each containing a single GraphQL schema entity.
 
-You can try this out with the example generator configuration provided in this repository. It uses the Magento GraphQL schema available in the [schemas](schemas) subfolder. Once the generator is install on your system, you can simply generate the Magento classes with
+You can try this out with the example generator configuration provided in this repository. It uses the Magento GraphQL schema available in the [schemas](schemas) subfolder. Once the generator is installed on your system, you can simply generate the Magento classes with
 
 ```
 mkdir -p src/main/java/com/adobe/cq/commerce/magento/graphql

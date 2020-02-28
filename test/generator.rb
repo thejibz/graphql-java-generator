@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift('../../pkg')
-require 'ruby-graphql-java-client-generator-0.0.1'
+require 'ruby-graphql-java-client-generator'
 require 'graphql_schema'
 require 'json'
 
@@ -18,4 +17,4 @@ GraphQLJavaGen.new(schema,
       imports: ['java.math.BigDecimal'],
     ),
   ]
-).save_granular("#{Dir.pwd}/target/SuperHeroClient/")
+).save_granular("#{Dir.pwd}/target")

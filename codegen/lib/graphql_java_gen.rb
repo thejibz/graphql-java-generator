@@ -34,6 +34,7 @@ class GraphQLJavaGen
     write_response(path, :query, schema.query_root_name)
     write_response(path, :mutation, schema.mutation_root_name)
     write_entities(path)
+    write_gqlclient(path)
   end
 
   def generate
@@ -94,6 +95,10 @@ class GraphQLJavaGen
           raise NotImplementedError, "unhandled #{type.kind} type #{type.name}"
       end
     end
+  end
+
+  def write_gqlclient(path)
+    File.write(path + "/GQLClient.java", reformat(erb_for_entity("GQLClient.java").result(binding)))
   end
 
   DEFAULT_SCALAR = Scalar.new(

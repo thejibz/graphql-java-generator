@@ -4,14 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'graphql_java_gen/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "graphql_java_gen"
+  spec.name          = "ruby-graphql-java-client-generator"
   spec.version       = GraphQLJavaGen::VERSION
-  spec.authors       = ["Dylan Thacker-Smith"]
-  spec.email         = ["gems@shopify.com"]
 
-  spec.summary       = "GraphQL java client code generator"
+  spec.summary       = "Ruby GraphQL java client code generator"
   spec.description   = %q{Generates java code based on the GraphQL schema to provide type-safe API for building GraphQL queries and using their responses.}
-  spec.homepage      = "https://github.com/adobe/graphql-java-generator"
+  spec.homepage      = "https://github.com/thejibz/ruby-graphql-java-client-generator"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z codegen/lib LICENSE.txt README.md`.split("\x0")

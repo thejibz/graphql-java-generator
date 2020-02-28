@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Generates java code based on the GraphQL schema to provide type-safe API for building GraphQL queries and using their responses.}
   spec.homepage      = "https://github.com/thejibz/ruby-graphql-java-client-generator"
   spec.license       = "MIT"
+  spec.authors       = ["JRX"]
 
   spec.files         = `git ls-files -z codegen/lib LICENSE.txt README.md`.split("\x0")
   spec.require_paths = ["codegen/lib"]
@@ -19,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "graphql_schema", "~> 0.1.1"
 
-  spec.add_development_dependency "bundler", "~> 1.14"
+  spec.add_development_dependency "bundler", "> 1.14"
   spec.add_development_dependency "rake", "~> 12.0"
   spec.add_development_dependency "minitest", "~> 5.10"
   spec.add_development_dependency "graphql", "~> 1.3"

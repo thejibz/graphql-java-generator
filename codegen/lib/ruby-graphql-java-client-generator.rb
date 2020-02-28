@@ -133,7 +133,7 @@ class GraphQLJavaGen
       type_name: 'ID',
       java_type: 'ID',
       deserialize_expr: ->(expr) { "new ID(jsonAsString(#{expr}, key))" },
-      imports: ['com.shopify.graphql.support.ID'],
+      imports: ['poc.graphql.client.support.ID'],
     ),
   ]
   private_constant :BUILTIN_SCALARS
